@@ -4,14 +4,25 @@ library(dplyr)
 path='I:/CTPPPUMSLEHD/'
 quadstate=c('CT','NJ','NY','PA')
 
-df=data.frame()
+flowmode=data.frame()
 for (i in quadstate){
-  df=rbind(df,read.csv(paste0(path,paste0('CTPP/FLOW/',as.character(i),'_2012thru2016_A302103.csv')),stringsAsFactors = FALSE,colClasses = 'character'))
+  flowmode=rbind(flowmode,read.csv(paste0(path,paste0('CTPP/FLOW/',as.character(i),'_2012thru2016_A302103.csv')),stringsAsFactors = FALSE,colClasses = 'character'))
 }
-df=filter(df,substr(df$GEOID,1,5)=='C5400')
-df$RESCT=substr(df$GEOID,8,18)
-df$WORKCT=substr(df$GEOID,19,29)
-df$MODE=as.integer(df$LINENO)
-df$EST=as.numeric(gsub(',','',df$EST))
-df$MOE=as.numeric(gsub(',','',gsub('+/-','',df$MOE)))
-df=select(df,RESCT,WORKCT,MODE,EST,MOE)
+flowmode=filter(flowmode,substr(flowmode$GEOID,1,5)=='C5400')
+flowmode$RESCT=substr(flowmode$GEOID,8,18)
+flowmode$WORKCT=substr(flowmode$GEOID,19,29)
+flowmode$MODE=as.numeric(flowmode$LINENO)
+flowmode$EST=as.numeric(gsub(',','',flowmode$EST))
+flowmode$MOE=as.numeric(gsub(',','',gsub('+/-','',flowmode$MOE)))
+flowmode=select(flowmode,RESCT,WORKCT,MODE,EST,MOE)
+
+resmode=data.frame()
+for (i in quadstate){
+  resmode=rbind(resmode,read.csv(paste0(path,paste0('CTPP/RES/',as.character(i),'_2012thru2016_A102106.csv')),stringsAsFactors = FALSE,colClasses = 'character'))
+}
+resmode=filter(resmode,substr(resmode$GEOID,1,5)=='C1100')
+resmode$RESCT=substr(resmode$GEOID,8,18)
+resmode$MODE=as.numeric(resmode$LINENO)
+resmode$EST=as.numeric(gsub(',','',resmode$EST))
+resmode$MOE=as.numeric(gsub(',','',gsub('+/-','',resmode$MOE)))
+resmode=select(resmode,RESCT,MODE,EST,MOE)
