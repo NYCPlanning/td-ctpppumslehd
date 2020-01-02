@@ -1,6 +1,7 @@
 library(dplyr)
 
-path='C:/Users/Y_Ma2/Desktop/CTPPPUMSLEHD/'
+path='G:/ACTIVE_PROJECTS/CTPPPUMSLEHD/'
+# path='C:/Users/Y_Ma2/Desktop/CTPPPUMSLEHD/'
 # path='I:/CTPPPUMSLEHD/'
 quadstate=c('CT','NJ','NY','PA')
 
